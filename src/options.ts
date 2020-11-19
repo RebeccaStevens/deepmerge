@@ -82,7 +82,7 @@ export function getFullOptions<O extends Options>(options?: O): FullOptions<O> {
 	return {
 		arrayMerge: defaultArrayMerge,
 		isMergeable: defaultIsMergeable,
-		clone: true,
+		clone: false,
 		...overrides,
 		cloneUnlessOtherwiseSpecified,
 	} as unknown as FullOptions<O>

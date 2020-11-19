@@ -152,7 +152,7 @@ test(`should clone source and target`, (t) => {
 		},
 	}
 
-	const merged = deepmerge(target, src)
+	const merged = deepmerge(target, src, { clone: true })
 	t.notEqual(merged.a, target.a)
 	t.notEqual(merged.b, src.b)
 
