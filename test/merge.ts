@@ -159,6 +159,46 @@ test(`should clone source and target`, (t) => {
 	t.end()
 })
 
+test(`should not mutate params`, (t) => {
+	const foo = { a: 1 }
+	const bar = { b: 2 }
+	const baz = { c: true }
+
+	const target = { foo: baz }
+	const src = { foo, bar }
+
+	const fooOrig = foo
+	const barOrig = bar
+	const bazOrig = baz
+
+	const targetOrig = target
+	const srcOrig = src
+
+	const mergedCloned = deepmerge(target, src, { clone: true })
+	t.notEqual(mergedCloned.foo, target.foo)
+	t.notEqual(mergedCloned.bar, src.bar)
+
+	// Params should be unmodified
+	t.equal(target, targetOrig)
+	t.equal(src, srcOrig)
+	t.equal(target.foo, bazOrig)
+	t.equal(src.foo, fooOrig)
+	t.equal(src.bar, barOrig)
+
+	const mergedNotCloned = deepmerge(target, src, { clone: false })
+	t.notEqual(mergedNotCloned.foo, target.foo)
+	t.equal(mergedNotCloned.bar, src.bar)
+
+	// Params should still be unmodified
+	t.equal(target, targetOrig)
+	t.equal(src, srcOrig)
+	t.equal(target.foo, bazOrig)
+	t.equal(src.foo, fooOrig)
+	t.equal(src.bar, barOrig)
+
+	t.end()
+})
+
 test(`should replace object with simple key in target`, (t) => {
 	const src = { key1: `value1` }
 	const target = {
