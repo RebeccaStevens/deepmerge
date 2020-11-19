@@ -32,7 +32,7 @@ Technically this could probably be a patch release since "which properties get o
 
 # [4.1.0](https://github.com/TehShrike/deepmerge/releases/tag/v4.1.0)
 
-- `cloneUnlessOtherwiseSpecified` is now exposed to the `arrayMerge` function [#165](https://github.com/TehShrike/deepmerge/pull/165)
+- `cloneIfNecessary` is now exposed to the `arrayMerge` function [#165](https://github.com/TehShrike/deepmerge/pull/165)
 
 # [4.0.0](https://github.com/TehShrike/deepmerge/releases/tag/v4.0.0)
 
@@ -84,7 +84,7 @@ Technically this could probably be a patch release since "which properties get o
 
 # [2.0.0](https://github.com/TehShrike/deepmerge/releases/tag/v2.0.0)
 
-- breaking: the array merge algorithm has changed from a complicated thing to `target.concat(source).map(element => cloneUnlessOtherwiseSpecified(element, optionsArgument))`
+- breaking: the array merge algorithm has changed from a complicated thing to `target.concat(source).map(element => cloneIfNecessary(element, optionsArgument))`
 - breaking: The `clone` option now defaults to `true`
 - feature: `merge.all` now accepts an array of any size, even 0 or 1 elements
 

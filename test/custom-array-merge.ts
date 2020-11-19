@@ -42,8 +42,8 @@ test(`cloner function is available for merge functions to use`, (t) => {
 	let customMergeWasCalled = false
 	const cloneMerge: Options[`arrayMerge`] = (target, source, options) => {
 		customMergeWasCalled = true
-		t.ok(options.cloneUnlessOtherwiseSpecified, `cloner function is available`)
-		return target.concat(source).map((element) => options.cloneUnlessOtherwiseSpecified(element, options))
+		t.ok(options.cloneIfNecessary, `cloner function is available`)
+		return target.concat(source).map((element) => options.cloneIfNecessary(element, options))
 	}
 
 	const src = {

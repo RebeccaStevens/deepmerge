@@ -5,7 +5,7 @@ function emptyTarget(value: unknown) {
 	return Array.isArray(value) ? [] : {}
 }
 
-export function cloneUnlessOtherwiseSpecified<T>(value: T, options: FullOptions): T {
+export function cloneIfNecessary<T>(value: T, options: FullOptions): T {
 	return options.clone !== false && options.isMergeable(value)
 		? deepmergeImpl(emptyTarget(value), value, options) as T
 		: value
@@ -71,7 +71,7 @@ function mergeObject<
 
 	if (options.isMergeable(target)) {
 		getKeys(target).forEach((key) => {
-			destination[key] = cloneUnlessOtherwiseSpecified(target[key], options)
+			destination[key] = cloneIfNecessary(target[key], options)
 		})
 	}
 
@@ -81,7 +81,7 @@ function mergeObject<
 		}
 
 		if (!options.isMergeable(source[key]) || !propertyIsOnObject(target, key)) {
-			destination[key] = cloneUnlessOtherwiseSpecified(source[key], options)
+			destination[key] = cloneIfNecessary(source[key], options)
 		} else {
 			destination[key] = getMergeFunction(key, options)(target[key], source[key], options)
 		}
@@ -100,7 +100,7 @@ export function deepmergeImpl<T1 extends any, T2 extends any, O extends Options>
 	const sourceAndTargetTypesMatch = sourceIsArray === targetIsArray
 
 	if (!sourceAndTargetTypesMatch) {
-		return cloneUnlessOtherwiseSpecified(source, options) as DeepMerge<T1, T2, ExplicitOptions<O>>
+		return cloneIfNecessary(source, options) as DeepMerge<T1, T2, ExplicitOptions<O>>
 	}
 	if (sourceIsArray) {
 		return options.arrayMerge(

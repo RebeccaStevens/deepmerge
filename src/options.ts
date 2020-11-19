@@ -1,6 +1,6 @@
 import isPlainObj from "is-plain-obj"
 
-import { cloneUnlessOtherwiseSpecified } from "./impl"
+import { cloneIfNecessary } from "./impl"
 import type { FlattenAlias, Property } from "./types"
 
 /**
@@ -32,7 +32,7 @@ export type FullOptions<O extends Options = Options> = FlattenAlias<{
 	readonly isMergeable: O[`arrayMerge`] extends undefined
 		? typeof defaultIsMergeable
 		: NonNullable<O[`isMergeable`]>
-	readonly cloneUnlessOtherwiseSpecified: <T>(value: T, options: FullOptions) => T
+	readonly cloneIfNecessary: <T>(value: T, options: FullOptions) => T
 }>
 
 /**
@@ -62,7 +62,7 @@ function defaultArrayMerge<T1 extends unknown, T2 extends unknown>(
 	options: FullOptions,
 ) {
 	return [ ...target, ...source ].map((element) =>
-		cloneUnlessOtherwiseSpecified(element, options),
+		cloneIfNecessary(element, options),
 	) as T1 extends readonly [...infer E1]
 		? T2 extends readonly [...infer E2]
 			? [...E1, ...E2]
@@ -84,6 +84,6 @@ export function getFullOptions<O extends Options>(options?: O): FullOptions<O> {
 		isMergeable: defaultIsMergeable,
 		clone: false,
 		...overrides,
-		cloneUnlessOtherwiseSpecified,
+		cloneIfNecessary,
 	} as unknown as FullOptions<O>
 }
